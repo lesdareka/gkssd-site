@@ -23,7 +23,11 @@ export function useInView<T extends HTMLElement>(threshold = 0.35, once = true) 
     if (!node) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      (entries) => {
+        const entry = entries[0];
+
+        if (!entry) return;
+
         if (once) {
           if (entry.isIntersecting) {
             setInView(true);
@@ -33,7 +37,7 @@ export function useInView<T extends HTMLElement>(threshold = 0.35, once = true) 
           setInView(entry.isIntersecting);
         }
       },
-      { threshold },
+      { threshold }
     );
 
     observer.observe(node);
