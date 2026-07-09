@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: auto; /* GSAP owns the scroll narrative; no native smooth-scroll fighting it */
+  }
+
+  body {
+    @apply bg-bg font-body text-ink antialiased;
+  }
+
+  ::selection {
+    @apply bg-brand text-white;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* Global reduced-motion guard: even inside components that don't branch
+   their JS logic, strip incidental CSS transitions/animations down to a
+   near-instant crossfade. Belt-and-suspenders alongside the JS-level
+   useReducedMotion() branch in SceneExperience. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.2s !important;
+    scroll-behavior: auto !important;
+  }
+}
